@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block head %}
+{% endblock %}
+
+
+{% block content %}
+
+    <div>
+        
+        <H3 style="font-family:'TTTogether' ;">BOOKMARK</H3>
+        <br>
+        <div>
+            <button type="button" class="btn btn-primary btn-sm" > CREATE<a href="{%url 'main:new' %}"></a></button>
+        </div>
+
+
+    </div>
+    <div>
+        {% if bookmarks %}
+            {% for bookmark in posts %}
+                <div>
+                    <p>{{ bookmark.site_name }}</p>
+                    <span class="site_url"><a href="#">{{ bookmark.site_url }}</a></span>
+                    <div>
+                        <button type="button" class="btn btn-primary btn-sm">
+                            <a href="{%url 'main:edit' bookmark.id %}"></a>
+                            EDIT
+                        </button>
+                        
+                        <form action="{%url 'main:delete' bookmark.id %}" method="POST">
+                            {% csrf_token %}
+                            <input type="submit" value="delete">
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+            {% if posts.has_previous %}
+                <a href="?page={{posts.previous_page_number}}">previous</a>
+            {% endif %}
+            <span>{{ posts.number }}</span>
+            <span>/</span>
+            <span>{{ posts.paginator.num_pages }}</span>
+            {% if posts.has_next %}
+                <a href="?page={{posts.next_page_number}}">next</a>
+            {% endif %} 
+        {% else %}
+            <div>
+                <p style="font-family: 'TTTogether';">
+                    create 필요
+                </p>
+
+
+            </div>        
+        {% endif %}
+
+    </div>
+
+{% endblock %}
